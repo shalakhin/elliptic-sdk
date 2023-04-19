@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "elliptic"
+name = "elliptic_sdk"
 version = "0.0.1"
 description = "Elliptic SDK"
 authors = ["Olexandr Shalakhin <olexandr@shalakhin.com>"]
@@ -18,4 +18,3 @@ python-dotenv = "^1.0.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-

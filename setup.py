@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
     description = f.read()
 
 setuptools.setup(
-    name="elliptic",
+    name="elliptic_sdk",
     version="0.0.1",
     author="Olexandr Shalakhin",
     author_email="olexandr@shalakhin.com",

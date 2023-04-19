@@ -1,7 +1,7 @@
-from elliptic import AML
-from elliptic.settings import settings
-from elliptic.schemas import LegacyWalletPayload
-from elliptic.schemas import LegacyWalletSubject
+from elliptic_sdk import AML
+from elliptic_sdk.settings import settings
+from elliptic_sdk.schemas import LegacyWalletPayload
+from elliptic_sdk.schemas import LegacyWalletSubject
 
 
 def test_aml_wallet_legacy():
