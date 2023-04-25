@@ -63,4 +63,4 @@ class LegacyWalletResponse(BaseModel):
     error: str | None
     team_id: uuid.UUID
     asset_tier: str
-    risk_score: float
+    risk_score: float | None
