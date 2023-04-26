@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "elliptic_sdk"
-version = "0.0.1"
+version = "0.0.3"
 description = "Elliptic SDK"
 authors = ["Olexandr Shalakhin <olexandr@shalakhin.com>"]
 
