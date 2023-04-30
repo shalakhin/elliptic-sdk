@@ -5,7 +5,7 @@ description = "Elliptic SDK"
 authors = ["Olexandr Shalakhin <olexandr@shalakhin.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 pydantic = "^1.10.7"
 httpx = "^0.24.0"
 python-dotenv = "^1.0.0"
