@@ -1,0 +1,60 @@
+---
+repos:
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.5.1
+    hooks:
+      - id: docformatter
+        name: format docstrings
+        types: [python]
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v2.4.0
+    hooks:
+      - id: add-trailing-comma
+        name: add trailing commas
+        args: [--py36-plus]
+        types: [python]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: [--line-length, '79']
+        name: reorder python imports with isort
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        exclude: .github
+      - id: check-added-large-files
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.2
+    hooks:
+      - id: yamlfmt
+        exclude: .github
+        name: format YAML
+        args: [--mapping, '2', --sequence, '4', --offset, '2']
+  - repo: local
+    hooks:
+      - id: flake8
+        name: check styling consistency with flake8
+        entry: flake8
+        language: system
+        pass_filenames: true
+        types: [python]
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.3.2
+    hooks:
+      - id: poetry-check
+        name: check pyproject.toml
+      - id: poetry-lock
+        name: resolve dependencies and write a .lock file
+        args: [--no-update]
+      - id: poetry-export
+        alias: poetry-export
+        name: export run dependencies to requirements.txt
+        args: [-f, requirements.txt, -o, requirements.txt, --without-hashes]
+      - id: poetry-export
+        alias: poetry-export-dev
+        name: export dev dependencies to requirements-dev.txt
+        args: [-f, requirements.txt, -o, requirements-dev.txt, --without-hashes, --with=dev]
