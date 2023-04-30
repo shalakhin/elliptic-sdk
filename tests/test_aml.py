@@ -1,4 +1,6 @@
 """Elliptic SDK tests/test_aml.py."""
+from typing import Union
+
 import pytest
 
 from elliptic_sdk import AML
@@ -15,7 +17,7 @@ from elliptic_sdk.settings import settings
 )
 def test_aml_wallet_single_analysis_risk_score(
     subject_hash: str,
-    risk_score: float | None,
+    risk_score: Union[float, None],
 ):
     """Test AML legacy wallet.
 

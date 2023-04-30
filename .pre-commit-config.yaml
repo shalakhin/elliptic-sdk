@@ -53,8 +53,8 @@ repos:
       - id: poetry-export
         alias: poetry-export
         name: export run dependencies to requirements.txt
-        args: [-f, requirements.txt, -o, requirements.txt, --without-hashes]
+        args: [-o, requirements.txt, --without-hashes]
       - id: poetry-export
         alias: poetry-export-dev
         name: export dev dependencies to requirements-dev.txt
-        args: [-f, requirements.txt, -o, requirements-dev.txt, --without-hashes, --with=dev]
+        args: [-o, requirements-dev.txt, --without-hashes, --with=dev]

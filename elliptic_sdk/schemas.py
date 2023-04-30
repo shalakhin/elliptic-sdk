@@ -1,7 +1,7 @@
 """Elliptic SDK elliptic_sdk/schemas.py."""
 import uuid
 from datetime import datetime
-from typing import Any
+from typing import Any, List, Union
 
 from pydantic import BaseModel, Field
 
@@ -75,10 +75,10 @@ class LegacyWalletResponse(BaseModel):
     analysed_at: datetime
     analysed_by: AnalysedBy
     asset_tier: str
-    cluster_entities: list[ClusterEntity]
+    cluster_entities: List[ClusterEntity]
     team_id: uuid.UUID
-    risk_score: float | None
-    error: str | None
+    risk_score: Union[float, None]
+    error: Union[str, None]
     workflow_status: str
     workflow_status_id: int
     process_status: str

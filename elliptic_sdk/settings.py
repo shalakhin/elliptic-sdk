@@ -5,8 +5,8 @@ from pydantic import BaseSettings, Field
 class Settings(BaseSettings):
     """Settings."""
 
-    api_key: str = Field('', env='ELLIPTIC_API_KEY')
-    api_secret: str = Field('', env='ELLIPTIC_API_SECRET')
+    api_key: str = Field(env='ELLIPTIC_API_KEY')
+    api_secret: str = Field(env='ELLIPTIC_API_SECRET')
 
     class Config:
         """Config."""
