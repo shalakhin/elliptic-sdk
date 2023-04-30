@@ -1,66 +1,85 @@
+"""Elliptic SDK elliptic_sdk/schemas.py."""
 import uuid
 from datetime import datetime
 from typing import Any
-from typing import List
-from pydantic import BaseModel
-from pydantic import Field
-from .enums import LegacyWalletTypeEnum
-from .enums import LegacyWalletPayloadTypeEnum
+
+from pydantic import BaseModel, Field
+
+from .enums import LegacyWalletPayloadTypeEnum, WalletAnalysisSubjectTypeEnum
 
 
 class LegacyWalletSubject(BaseModel):
-    type: LegacyWalletTypeEnum = Field(default=LegacyWalletTypeEnum.ADDRESS)
+    """LegacyWalletSubject schema."""
+
     asset: str
-    blockchain: str
+    type: WalletAnalysisSubjectTypeEnum = Field(
+        default=WalletAnalysisSubjectTypeEnum.ADDRESS,
+    )
     hash: str
+    blockchain: str
 
     class Config:
+        """Config."""
+
         use_enum_values = True
 
 
 class LegacyWalletPayload(BaseModel):
+    """LegacyWalletPayload schema."""
+
     subject: LegacyWalletSubject
     type: LegacyWalletPayloadTypeEnum = Field(
-        default=LegacyWalletPayloadTypeEnum.WALLET_EXPOSURE)
+        default=LegacyWalletPayloadTypeEnum.WALLET_EXPOSURE,
+    )
     customer_reference: str
 
     class Config:
+        """Config."""
+
         use_enum_values = True
 
 
 class AnalysedBy(BaseModel):
+    """AnalysedBy schema."""
+
     id: uuid.UUID
     type: str
 
 
 class ClusterEntity(BaseModel):
+    """ClusterEntity schema."""
+
     name: str
     category: str
-    actor_id: int
     is_primary_entity: bool
     is_vasp: Any
+    actor_id: int
     is_after_sanction_date: bool
 
 
 class Customer(BaseModel):
+    """Customer schema."""
+
     reference: str
 
 
 class LegacyWalletResponse(BaseModel):
-    analysed_by: AnalysedBy
-    cluster_entities: List[ClusterEntity]
+    """LegacyWalletResponse schema."""
+
     id: uuid.UUID
-    subject: LegacyWalletSubject
     type: LegacyWalletPayloadTypeEnum
+    subject: LegacyWalletSubject
     customer: Customer
     created_at: datetime
     updated_at: datetime
     analysed_at: datetime
+    analysed_by: AnalysedBy
+    asset_tier: str
+    cluster_entities: list[ClusterEntity]
+    team_id: uuid.UUID
+    risk_score: float | None
+    error: str | None
+    workflow_status: str
+    workflow_status_id: int
     process_status: str
     process_status_id: int
-    workflow_status_id: int
-    workflow_status: str
-    error: str | None
-    team_id: uuid.UUID
-    asset_tier: str
-    risk_score: float | None
