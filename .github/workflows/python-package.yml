@@ -24,11 +24,16 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+      - name: Export dependencies to requirements-dev.txt
+        run: |
+          ~/.poetry/bin/poetry export -f requirements-dev.txt -o requirements-dev.txt --without-hashes --with=dev
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          ls -l
-          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          pip install -r requirements-dev.txt
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
