@@ -1,56 +1,60 @@
-import json
-import time
-import base64
-import hashlib
-# import httpx
-import requests
-import hmac as crypto
+"""Elliptic SDK elliptic_sdk/aml.py."""
+from .auth import Auth
+from .client import get_client
+from .schemas import LegacyWalletPayload, LegacyWalletResponse
 from .settings import settings
-from .schemas import LegacyWalletPayload
-from .schemas import LegacyWalletResponse
 
 
 class AML:
-    ROOT = 'https://aml-api.elliptic.co'
+    """AML."""
 
-    def __init__(self,
-                 api_key: str = settings.api_key,
-                 api_secret: str = settings.api_secret
-                 ):
-        self.api_key = api_key
-        self.api_secret = api_secret
+    base_url = 'https://aml-api.elliptic.co'
+    auth: Auth
 
-    @staticmethod
-    def timestamp() -> str:
-        return str(int(round(time.time() * 1000)))
+    def __init__(
+        self,
+        api_key: str = settings.api_key,
+        api_secret: str = settings.api_secret,
+    ):
+        """Init AML class.
 
-    @staticmethod
-    def sign(secret, time_of_request, http_method, http_path, payload) -> str:
-        hmac = crypto.new(base64.b64decode(secret), digestmod=hashlib.sha256)
-        request_text = ''.join([
-            time_of_request,
-            http_method,
-            http_path.lower(),
-            payload
-        ])
-        hmac.update(request_text.encode('UTF-8'))
-        return base64.b64encode(hmac.digest()).decode('utf-8')
+        Args:
+            api_key: API key
+            api_secret: API secret
+        """
+        self.auth = Auth(api_key, api_secret)
 
-    def legacy_wallet(
-            self, payload: LegacyWalletPayload) -> LegacyWalletResponse:
-        url = "/v2/wallet/synchronous"
-        timestamp = self.timestamp()
-        signature = self.sign(settings.api_secret, timestamp, 'POST', url,
-                              json.dumps(payload.dict(),
-                                         separators=(',', ':')))
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            'x-access-key': self.api_key,
-            'x-access-sign': signature,
-            'x-access-timestamp': timestamp
+    def wallet_single_analysis(
+        self,
+        schema: LegacyWalletPayload,
+    ) -> LegacyWalletResponse:
+        """Run a single analysis.
+
+        Args:
+            schema: LegacyWalletPayload instance
+
+        Returns:
+            LegacyWalletResponse instance
+        """
+        payload = schema.dict()
+        kwargs = {
+            'method': 'POST',
+            'path': '/v2/wallet/synchronous',
         }
-        full_path = f'{self.ROOT}{url}'
-        response = requests.post(full_path, json=payload.dict(),
-                                 headers=headers)
-        return LegacyWalletResponse(**response.json())
+        auth_headers = self.auth.create_headers(
+            **kwargs,
+            payload=payload,
+        )
+        response_dict = self._make_request(
+            **kwargs,
+            headers=auth_headers,
+            json=payload,
+        )
+        return LegacyWalletResponse(**response_dict)
+
+    def _make_request(self, path: str, **kwargs) -> dict:
+        client = get_client()
+        url = f'{self.base_url}{path}'
+        response = client.request(url=url, **kwargs)
+        response.raise_for_status()
+        return response.json()
