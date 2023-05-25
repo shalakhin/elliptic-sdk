@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     api_key: str
     api_secret: str
-    timeout: str = TIMEOUT_DEFAULT
+    timeout: float = TIMEOUT_DEFAULT
 
     class Config:
         """Config."""
