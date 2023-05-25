@@ -1,12 +1,15 @@
 """Elliptic SDK elliptic_sdk/settings.py."""
 from pydantic import BaseSettings
 
+TIMEOUT_DEFAULT = 5
+
 
 class Settings(BaseSettings):
     """Settings."""
 
     api_key: str
     api_secret: str
+    timeout: str = TIMEOUT_DEFAULT
 
     class Config:
         """Config."""
