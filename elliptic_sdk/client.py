@@ -1,5 +1,6 @@
 """Elliptic SDK elliptic_sdk/client.py."""
 from httpx import Client
+from .settings import settings
 
 
 def get_client():
@@ -12,4 +13,4 @@ def get_client():
         'accept': 'application/json',
         'content-type': 'application/json',
     }
-    return Client(headers=headers)
+    return Client(headers=headers, timeout=settings.timeout)

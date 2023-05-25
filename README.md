@@ -20,6 +20,7 @@ pip install elliptic_sdk
 |---------------------|---------|----------|
 | ELLIPTIC_API_KEY    |         |          |
 | ELLIPTIC_API_SECRET |         |          |
+| ELLIPTIC_TIMEOUT    | 5       |          |
 
 ## Usage
 
